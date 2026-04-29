@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: mlproject
+Version: 0.0.1
+Author: Agrim Pratap Singh 
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: python-dotenv
+Requires-Dist: mysql-connector-python
+Requires-Dist: pymysql
+Requires-Dist: scikit-learn
+Requires-Dist: seaborn
+Requires-Dist: catboost
+Requires-Dist: xgboost
+Requires-Dist: mlflow
+Dynamic: author
+Dynamic: requires-dist
