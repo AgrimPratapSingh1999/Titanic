@@ -15,5 +15,6 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler(log_path),
         logging.StreamHandler()
-    ]
+    ],
+    force=True
 )

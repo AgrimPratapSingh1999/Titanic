@@ -1,3 +1,0 @@
-[2026-05-01 00:54:09,550]18 root - INFO - start reading sql database 
-[2026-05-01 00:54:09,574]28 root - INFO - connection established
-[2026-05-01 00:54:12,328]37 root - ERROR - Error occurred: Execution failed on sql 'select * from 'titanic-dataset'': (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''titanic-dataset'' at line 1")

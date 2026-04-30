@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import pandas as pd
 import os
 import sys
-from exception import CustomException
-from logger import logging
+from src.Titanic.exception import CustomException
+from src.Titanic.logger import logging
 
 load_dotenv()
 host = os.getenv("MYSQL_HOST")
@@ -38,5 +38,5 @@ def read_sql_data():
         raise CustomException (e)
     
 
-if __name__ == "__main__":
-    read_sql_data()
+#if __name__ == "__main__":
+    #read_sql_data()
