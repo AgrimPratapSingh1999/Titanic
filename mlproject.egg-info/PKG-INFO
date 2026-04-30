@@ -12,5 +12,7 @@ Requires-Dist: seaborn
 Requires-Dist: catboost
 Requires-Dist: xgboost
 Requires-Dist: mlflow
+Requires-Dist: logging
+Requires-Dist: sys
 Dynamic: author
 Dynamic: requires-dist
