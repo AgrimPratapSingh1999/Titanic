@@ -5,6 +5,7 @@ import os
 import sys
 from src.Titanic.exception import CustomException
 from src.Titanic.logger import logging
+import pickle
 
 load_dotenv()
 host = os.getenv("MYSQL_HOST")
@@ -35,8 +36,20 @@ def read_sql_data():
         return df
     except Exception as e:
         logging.error(f"Error occurred: {e}")
-        raise CustomException (e)
+        raise CustomException (e,sys)
     
 
-#if __name__ == "__main__":
-    #read_sql_data()
+def save_object(file_path,obj):
+    try:
+        dir_path  = os.path.dirname(file_path)
+        os.makedirs(dir_path,exist_ok=True)
+
+        with open(file_path,"wb")as file_obj:
+            pickle.dump(obj,file_obj)
+            
+    except Exception as e:
+
+        logging.error(f" error reasion is {e}")
+        raise CustomException(e,sys)
+    
+

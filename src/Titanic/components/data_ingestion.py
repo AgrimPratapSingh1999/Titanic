@@ -64,10 +64,10 @@ class DataIngestion:
 
 
 
-cof =DataIngestion()
+#cof =DataIngestion()
 
 
 
-if __name__ == "__main__":
-    logging.info("Data ingestion pipeline started")
-    cof.initiate_data_ingestion()
+#if __name__ == "__main__":
+  #  logging.info("Data ingestion pipeline started")
+  #  cof.initiate_data_ingestion()
