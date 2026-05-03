@@ -54,7 +54,7 @@ class DataTransformation:
             raise CustomException(e,sys)
         
         
-    def tranformation_apply(self,x_train_path,y_train_path ,x_test_path,y_test_path):
+    def transformation_apply(self,x_train_path,y_train_path ,x_test_path,y_test_path):
         try:
             x_train_df = pd.read_csv(x_train_path)
             y_train_df = pd.read_csv(y_train_path)
@@ -71,8 +71,8 @@ class DataTransformation:
             training_features = preprocessing_object.fit_transform(x_train_df)
             testing_features = preprocessing_object.transform(x_test_df)
 
-            training_labels = np.array(y_train_df)
-            testing_labels = np.array(y_test_df)
+            training_labels = np.array(y_train_df).ravel()
+            testing_labels = np.array(y_test_df).ravel()
 
 
             logging.info("saved preprocessing obejct")
@@ -84,14 +84,13 @@ class DataTransformation:
             )
 
 
-            return (training_features,training_labels,testing_features,testing_labels,
-                    self.data_transformation_config.preprocessor_obj_file_path)
+            return (training_features,training_labels,testing_features,testing_labels)
 
 
         except Exception as e:
             logging.error(f"something bad happen{e}")
 
-            raise CustomException(e,sys)
+            raise CustomException(e , sys)
         
         
 
