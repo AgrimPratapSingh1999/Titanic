@@ -14,5 +14,6 @@ Requires-Dist: xgboost
 Requires-Dist: mlflow
 Requires-Dist: logging
 Requires-Dist: sys
+Requires-Dist: dagshub
 Dynamic: author
 Dynamic: requires-dist

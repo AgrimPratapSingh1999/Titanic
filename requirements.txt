@@ -10,4 +10,5 @@ xgboost
 mlflow
 logging
 sys
+dagshub
 -e

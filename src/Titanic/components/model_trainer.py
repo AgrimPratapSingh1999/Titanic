@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import mlflow
-import mlflow.sklearn
+import mlflow.xgboost
 import os 
 import sys
 from src.Titanic.utils import save_object, evaluate_models
@@ -19,6 +19,9 @@ from sklearn.metrics import (
     f1_score,
     roc_auc_score)
 from src.Titanic.components.data_transformation import DataTransformation
+import dagshub
+import mlflow.sklearn
+
 
 
 @dataclass
@@ -87,14 +90,61 @@ class Model_Trainer:
                    }
             
             model_report = evaluate_models(x_train,y_train,x_test,y_test,models,param_grids)
-            print( model_report)
-            model_report_df= pd.DataFrame(list(model_report.items()),columns=["model","score"])
-            model_report_df.to_csv(self.model_trainer_config.model_report_file_path,index= True)
+                         #     Best model name based on highest test accuracy
+            best_model_name = max(
+                          model_report,
+                          key=lambda model: model_report[model]["test_accuracy"]
+                      )
 
-            return model_report,model_report_df
-        
+                                   # Best model score
+            best_model_score = model_report[best_model_name]["test_accuracy"]
 
+                   # Best model object
+            best_model_object = models[best_model_name]
+
+                      # Best hyperparameters
+            best_params = model_report[best_model_name]["best_params"]
+
+                      # Print results
+            print(f"Best Model: {best_model_name}")
+            print(f"Best Test Accuracy: {best_model_score}")
+            print(f"Best Params: {best_params}")
+
+
+            dagshub.init(repo_owner='agrimsingh19992207-web', repo_name='Titanic', mlflow=True)
+
+            mlflow.set_experiment("Titanic_Classification")
+
+            with mlflow.start_run():
+              
+
+              best_model_object.set_params(**best_params)
+              best_model_object.fit(x_train, y_train)
+              predict_qualities = best_model_object.predict(x_test)
+
+
+              accu,precision,recall,f1,roc = self.evalution(y_test,predict_qualities)
+              mlflow.log_metric("accu", accu)
+              mlflow.log_metric("precision",precision)
+              mlflow.log_metric("recall",recall)
+              mlflow.log_metric("f1",f1)
+              mlflow.log_metric("roc",roc)
+              mlflow.log_param("best_params",best_params)
+              
+
+              if best_model_name == "xgboost":
+                  mlflow.xgboost.log_model(best_model_object,artifact_path="best_model")
+              else:
+                 mlflow.sklearn.log_model(best_model_object,artifact_path="best_model")
+
+
+            logging.info("model , params and metrics  log into mlflow")
+
+
+            save_object(
+                          file_path=self.model_trainer_config.train_model_file_path,
+                          obj=best_model_object
+                                                   )
 
         except Exception as e:
             raise CustomException(e,sys)
-        logging.info("model report save in artifact folder")

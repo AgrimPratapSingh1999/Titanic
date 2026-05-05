@@ -80,6 +80,7 @@ def evaluate_models(x_train, y_train, x_test, y_test, models, param):
 
             # Best model after tuning
             best_model = gs.best_estimator_
+            best_params = gs.best_params_
 
             # Predictions
             y_train_pred = best_model.predict(x_train)
@@ -92,12 +93,14 @@ def evaluate_models(x_train, y_train, x_test, y_test, models, param):
             # Store results
             report[model_name] = {
                 "train_accuracy": train_accuracy,
+                
                 "test_accuracy": test_accuracy,
+
                 "best_params": gs.best_params_
             }
 
         return report
 
     except Exception as e:
-        raise Exception(f"Error in model evaluation: {e}")    
+        raise Exception(f"Error in model evaluation: {e}")
 
